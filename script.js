@@ -1,58 +1,90 @@
-/**
- * Verkefni 7 – Reikniæfingarforrit
- *
- * Forrit sem æfir hraða í að reikna einföld dæmi
- */
-
-// fasti sem segir til um hve marga leiki eigi að spila
 const GAMES_TO_PLAY = 10;
 
-/**
- * Birtir upplýsingar um leik og eftir að notandi samþykkir spilar fyrsta leik
- * með kalli í play().
- * Eftir leik er notanda boðið að spila annan leik, ef ekki hættir forrit.
- */
 function start() {
-  villa;
+  alert("Markmiðið er að svara eins mörgum af 10 dæmum rétt eins hratt og mögulegt er.");
+  do{
+      play();
+  }
+  while
+    (confirm("Spila annan leik?"));
 }
 
-/**
- * Spilar einn leik. Heldur utan um hvenær leikur byrjaði, hvenær endar og
- * fjölda réttra svara. Eftir leik eru birtar upplýsingar um niðurstöðu:
- *   Þú svaraðir X af 10 dæmum rétt á Y sekúndum
- *   Meðalrétt svör á sekúndu eru Z
- * Þar sem Y og Z hafa tvo aukastafi.
- *
- * Ef notandi ýtir á "Cancel" í leik eru skilaboðin "Hætt í leik." birt og engar
- * upplsýingar um niðurstöður.
- *
- */
 function play() {
-}
+        let a = new Date();
+        let righty = 0;
+        let all = 0;
+        let bop;
+    do{
+        bop = ask();
 
-/**
- * Spyr einnar spurningar og skilar upplýsingum um svar (mögulega með því að
- * nota true, false og null ef notandi hættir). Birtir notanda propmpt til að
- * svara í og túlkar svarið yfir í tölu.
- *
- * Mögulegar spurningar eru:
- * - `+` dæmi þar sem báðar tölur geta verið á bilinu `[1, 100]`
- * - `-` dæmi þar sem báðar tölur geta verið á bilinu `[1, 100]`
- * - `*` dæmi þar sem báðar tölur geta verið á bilinu `[1, 10]`
- * - `/` dæmi þar sem fyrri tala er á bilinu `[2, 10]` og seinni talan er fyrri
- *   talan sinnum tala á bilinu `[2, 10]` þ.a. svarið verði alltaf heiltala
- *
- * Sniðugt væri að færa það að búa til spurningu í nýtt fall sem ask() kallar í.
- */
+    if( bop === true ){
+        righty++;
+    }
+    if( bop === null){
+        alert("Þú hættir í leiknum.");
+        return;
+    }
+        all++;
+    }
+    while(GAMES_TO_PLAY > all);
+        let b = new Date();
+        let time = (b-a) / 1000;
+        let average = time/righty;
+    alert(`Þú svaraðir ${righty} af ${GAMES_TO_PLAY} rétt á ${time.toFixed(2)} sekúndum \n Meðalrétt svör á sekúndu eru ${average.toFixed(2)}`);
+}   
+
 function ask() {
+        let questiones = question();
+        let answer = prompt(questiones.question,);
+    if(questiones.answer === parseInt(answer)){
+        return true;
+    }
+    else if (answer === null){
+        return null;
+    }
+    return false;
 }
 
-/**
- * Skilar tölu af handahófi á bilinu [min, max]
- */
+function question(){
+    let question = `Hvað er `;
+    let answer = 0;
+    let x = 0;
+    let y = 0;
+    const type = randomNumber(1,4);
+    switch(type){
+        case 1:
+            x = randomNumber(1,10);
+            y = randomNumber(1,10);
+            question += `${x} * ${y}`;
+            answer = x*y;
+        break;
+
+        case 2:
+            x = randomNumber(2,10);
+            y = (x * randomNumber(2,10));
+            question += `${y} / ${x}`;
+            answer = y/x;
+        break;
+
+        case 3:
+            x = randomNumber(1,100);
+            y = randomNumber(1,100);
+            question += `${x} - ${y}`;
+            answer = x-y;
+        break;
+
+        case 4:
+            x = randomNumber(1,100);
+            y = randomNumber(1,100);
+            question += `${x} + ${y}`;
+            answer = x+y;
+        break;
+
+    }
+    return {question, answer};
+}
 function randomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Byrjar leik
 start();
